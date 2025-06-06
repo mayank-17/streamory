@@ -1,13 +1,3 @@
-<style>
-.circular_image {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: inline-block;
-}
-</style>
-
 ## Why the Name "Streamory"?
 
 We picked **Streamory** because it feels just right for what this project is all about:
@@ -17,7 +7,7 @@ We picked **Streamory** because it feels just right for what this project is all
 
 Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
 
-### <img class="circular_image" src="/assets/logo/streamory-logo.png" width="20" height="20"/> What’s with the Logo?
+### <img src="/assets/logo/streamory-circular-logo.png" width="20" height="20"/> What’s with the Logo?
 
 The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
 
