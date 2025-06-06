@@ -1,20 +1,19 @@
-<table>
-  <tr>
-    <td align="left">
-      <h1 style="margin-bottom: 4px;">Streamory</h1>
-      <p><i>Your real-time analytics backend platform — fast, flexible, and developer-friendly.</i></p>
-    </td>
-    <td align="right" width="100">
-      <img
-        src="./assets/logo/streamory-circular-logo.png"
-        width="60"
-        height="60"
-        alt="Streamory Logo"
-        style="border-radius: 50%;"
-      />
-    </td>
-  </tr>
-</table>
+<div style="overflow: hidden; margin-bottom: 20px;">
+  <div style="float: left;">
+    <h1 style="margin: 0;">Streamory</h1>
+    <p style="margin-top: 4px;"><i>Your real-time analytics backend platform — fast, flexible, and developer-friendly.</i></p>
+  </div>
+  <div style="float: right;">
+    <img
+      src="./assets/logo/streamory-logo-circular.png"
+      width="60"
+      height="60"
+      alt="Streamory Logo"
+      style="border-radius: 50%;"
+    />
+  </div>
+</div>
+
 
 
 ## Why the Name "Streamory"?
