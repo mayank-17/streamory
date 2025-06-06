@@ -1,39 +1,4 @@
-# 🧠 streamory
-
-> Drop-in analytics infra for product teams, growth hackers, and engineers.  
-> Powered by ClickHouse. Built for scale.
-
----
-
-## 📦 Packages
-
-### `@mynq/streamory-sdk`
-Client-side JavaScript/TypeScript SDK for tracking custom events.
-
-**Features:**
-- Lightweight and ESM-compatible
-- Secure Bearer token authentication
-- Built-in support for token refresh
-- Type-safe event payloads
-- Easy to integrate with frontend apps
-
-```bash
-npm install @mynq/streamory-sdk
-```
-
-## Usage
-
-```js
-import StreamorySDK from "@streamory/sdk";
-
-const sdk = new StreamorySDK("your-access-token", "https://your-api.com/v1/events");
-
-sdk.track("user_signup", {
-  plan: "Pro",
-  referrer: "LinkedIn"
-});
-```
-# 📊 Streamory
+# 🧠 Streamory
 
 > Drop-in analytics infra for product teams, growth hackers, and engineers.  
 > Powered by ClickHouse. Built for scale.
@@ -58,7 +23,7 @@ streamory/
 
 ---
 
-## 📦 SDK (`@streamory/sdk`)
+## 📦 SDK (`@mynq/streamory-sdk`)
 
 A lightweight, ESM-compatible SDK for tracking frontend events securely.
 
@@ -73,13 +38,13 @@ A lightweight, ESM-compatible SDK for tracking frontend events securely.
 ### 📥 Installation
 
 ```bash
-npm install @streamory/sdk
+npm install @mynq/streamory-sdk
 ```
 
 ### 🧪 Example
 
 ```ts
-import StreamorySDK from "@streamory/sdk";
+import StreamorySDK from "@mynq/streamory-sdk";
 
 const sdk = new StreamorySDK("ACCESS_TOKEN", "https://api.streamory.com/v1/events");
 
