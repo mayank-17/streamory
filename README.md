@@ -5,7 +5,7 @@
   </div>
   <div style="float: right;">
     <img
-      src="./assets/logo/streamory-logo-circular.png"
+      src="./assets/logo/streamory-circular-logo.png"
       width="60"
       height="60"
       alt="Streamory Logo"
