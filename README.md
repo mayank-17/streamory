@@ -1,24 +1,12 @@
-<div style="display: inline-block; width: 100%;">
-  <table style="width: 100%; border: none; border-collapse: collapse; margin: 0; padding: 0;">
-    <tr>
-      <td style="padding: 0; vertical-align: top; width: 70px;">
-        <img
-          src="./assets/logo/streamory-circular-logo.png"
-          width="60"
-          height="60"
-          alt="Streamory Logo"
-          style="border-radius: 50%;"
-        />
-      </td>
-      <td style="padding: 0; vertical-align: middle; padding-left: 10px;">
-        <h1 style="margin: 0;">Streamory</h1>
-        <p style="margin: 4px 0 0 0;"><i>Your real-time analytics backend platform — fast, flexible, and developer-friendly.</i></p>
-      </td>
-    </tr>
-  </table>
+<div align="center">
+
+<img src="./assets/logo/streamory-circular-logo.png" width="100" height="100" alt="Streamory Logo"> 
+
+# Streamory
+
+*Your real-time analytics backend platform — fast, flexible, and developer-friendly.*
+
 </div>
-
-
 
 ## Why the Name "Streamory"?
 
