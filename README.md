@@ -1,10 +1,4 @@
-## <img src="/assests/logo/streamory-logo.png" width="25" height="25"/> Streamory
-
-Drop-in analytics infra for product teams, and engineers. Built for scale.
-
----
-
-## 🌀 Why the Name "Streamory"?
+## <img src="/assests/logo/streamory-logo.png" width="25" height="25"/> Why the Name "Streamory"?
 
 We picked **Streamory** because it feels just right for what this project is all about:
 
@@ -13,7 +7,7 @@ We picked **Streamory** because it feels just right for what this project is all
 
 Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
 
-### 🌊 What’s with the Logo?
+### <img src="/assests/logo/streamory-logo.png" width="25" height="25"/> What’s with the Logo?
 
 The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
 
