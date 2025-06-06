@@ -7,7 +7,7 @@ We picked **Streamory** because it feels just right for whamv this project is al
 
 Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
 
-### <img src="./assets/logo/streamory-logo-circular.png" width="50" height="50" alt="Streamory Logo" style="border-radius: 50%; vertical-align: middle;"/> What’s with the Logo?
+### <img src="/assets/logo/streamory-circular-logo.png" width="50" height="50" style="border-radius: 50%; vertical-align: middle;"/> What’s with the Logo?
 
 The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
 
