@@ -1,5 +1,5 @@
 <p align="left">
-  <img src="./assets/logo/streamory-logo-circular.png" width="80" height="80" alt="Streamory Logo" style="border-radius: 50%;" />
+  <img src="/assets/logo/streamory-circular-logo.png" width="80" height="80" alt="Streamory Logo" style="border-radius: 50%;" />
 </p>
 
 <h1 align="left">Streamory</h1>
