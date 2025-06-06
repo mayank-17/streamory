@@ -1,7 +1,25 @@
 ## <img src="/assests/logo/streamory-logo.png" width="25" height="25"/> Streamory
 
-> Drop-in analytics infra for product teams, growth hackers, and engineers.  
-> Powered by ClickHouse. Built for scale.
+Drop-in analytics infra for product teams, and engineers. Built for scale.
+
+---
+
+## 🌀 Why the Name "Streamory"?
+
+We picked **Streamory** because it feels just right for what this project is all about:
+
+- **Stream** stands for the continuous flow of data — like all those events and interactions happening in real time inside your app.
+- **Story** hints at the bigger picture — the story your data tells about how users behave and how your product performs.
+
+Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
+
+### 🌊 What’s with the Logo?
+
+The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
+
+It’s a simple, clean symbol of how data pipelines work: smooth, flexible, and built to handle whatever you throw at them.
+
+The blue gradient reflects qualities we care about: clarity, depth, and reliability — just like how we want your analytics to feel.
 
 ---
 
