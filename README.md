@@ -1,3 +1,14 @@
+<p align="left">
+  <img src="./assets/logo/streamory-logo-circular.png" width="80" height="80" alt="Streamory Logo" style="border-radius: 50%;" />
+</p>
+
+<h1 align="left">Streamory</h1>
+
+<p align="left">
+  <i>Your real-time analytics backend platform — fast, flexible, and developer-friendly.</i>
+</p>
+
+
 ## Why the Name "Streamory"?
 
 We picked **Streamory** because it feels just right for whamv this project is all about:
@@ -7,7 +18,7 @@ We picked **Streamory** because it feels just right for whamv this project is al
 
 Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
 
-### <img src="/assets/logo/streamory-circular-logo.png" width="50" height="50" style="border-radius: 50%; display: block;"/> What’s with the Logo?
+### What’s with the Logo?
 
 The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
 
