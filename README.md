@@ -3,7 +3,7 @@
     <tr>
       <td style="padding: 0; vertical-align: top; width: 70px;">
         <img
-          src="../assets/logo/streamory-circular-logo.png"
+          src="./assets/logo/streamory-circular-logo.png"
           width="60"
           height="60"
           alt="Streamory Logo"
