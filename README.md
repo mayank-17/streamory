@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/logo/streamory-circular-logo.png" width="100" height="100" alt="Streamory Logo"> 
+<img src="./assets/logo/streamory-circular-logo.png" width="75" height="75" alt="Streamory Logo"> 
 
 # Streamory
 
