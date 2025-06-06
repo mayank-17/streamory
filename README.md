@@ -1,13 +1,13 @@
 ## Why the Name "Streamory"?
 
-We picked **Streamory** because it feels just right for what this project is all about:
+We picked **Streamory** because it feels just right for whamv this project is all about:
 
 - **Stream** stands for the continuous flow of data — like all those events and interactions happening in real time inside your app.
 - **Story** hints at the bigger picture — the story your data tells about how users behave and how your product performs.
 
 Put them together, and **Streamory** means a real-time memory for your product — helping teams see what’s happening, understand it quickly, and improve things faster.
 
-### <img src="/assets/logo/streamory-circular-logo.png" width="40" height="25"/> What’s with the Logo?
+### <img src="./assets/logo/streamory-logo-circular.png" width="50" height="50" alt="Streamory Logo" style="border-radius: 50%; vertical-align: middle;"/> What’s with the Logo?
 
 The logo’s wave shape is inspired by flowing streams of data — always moving, always fresh.
 
