@@ -1,4 +1,4 @@
-# 🧠 Streamory
+## <img src="assets/logo/streamory-logo.png" width="150"/> Streamory
 
 > Drop-in analytics infra for product teams, growth hackers, and engineers.  
 > Powered by ClickHouse. Built for scale.
