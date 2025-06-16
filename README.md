@@ -112,10 +112,13 @@ sdk.track("user_signup", {
 ## 🧭 Roadmap
 
 - [x] Build and publish initial SDK
-- [ ] Basic ingestion API with Kafka producer
+- [x] Basic ingestion API with Kafka producer
+- [ ] Create the Kafka Consumer Processor to transform and store events into ClickHouse
+- [ ] Build the Dashboard UI to visualize event data
+- [ ] Dockerize the Ingestion API and set up Kubernetes for easier deployment
+- [ ] Add Authentication & Authorization layers (API keys, JWTs) to the ingestion API
+- [ ] Set up ClickHouse schema and ingestion pipeline for storing analytics
 - [ ] Token refresh and expiry logic
-- [ ] Project dashboard with event explorer
-- [ ] Real-time stream processor
 - [ ] Hosted version of Streamory
 
 ---
