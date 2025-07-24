@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/logo/streamory-circular-logo.png" width="75" height="75" alt="Streamory Logo"> 
+<img src="./assets/logo/streamory-circular-logo.png" width="75" height="75" alt="Streamory Logo">
 
 # Streamory
 
@@ -113,11 +113,11 @@ sdk.track("user_signup", {
 
 - [x] Build and publish initial SDK
 - [x] Basic ingestion API with Kafka producer
-- [ ] Create the Kafka Consumer Processor to transform and store events into ClickHouse
+- [x] Create the Kafka Consumer Processor to transform and store events into ClickHouse
+- [x] Set up ClickHouse schema and ingestion pipeline for storing analytics
 - [ ] Build the Dashboard UI to visualize event data
 - [ ] Dockerize the Ingestion API and set up Kubernetes for easier deployment
 - [ ] Add Authentication & Authorization layers (API keys, JWTs) to the ingestion API
-- [ ] Set up ClickHouse schema and ingestion pipeline for storing analytics
 - [ ] Token refresh and expiry logic
 - [ ] Hosted version of Streamory
 
