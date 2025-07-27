@@ -4,8 +4,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    networks:
-      - streamory-net
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -24,7 +22,7 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      JMX_PORT: 9999
+      JMX_PORT: 9999 # Give JVM JMX something else if needed
       KAFKA_JMX_OPTS: >-
         -Dcom.sun.management.jmxremote
         -Dcom.sun.management.jmxremote.authenticate=false
@@ -36,18 +34,11 @@ services:
         -javaagent:/opt/jmx_exporter/jmx_prometheus_javaagent-0.20.0.jar=7071:/opt/jmx_exporter/kafka-2_0_0.yml
     volumes:
       - ./jmx:/opt/jmx_exporter
-    healthcheck:
-      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/29092"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    networks:
-      - streamory-net
 
   clickhouse:
     image: clickhouse/clickhouse-server:23.7
     ports:
-      - "8123:8123"
+      - "8123:8123" # Bind to IPv4 only
       - "9000:9000"
     volumes:
       - ./clickhouse/init:/docker-entrypoint-initdb.d
@@ -56,27 +47,20 @@ services:
       CLICKHOUSE_DB: default
       CLICKHOUSE_USER: default
       CLICKHOUSE_PASSWORD: ""
-    networks:
-      - streamory-net
 
   processor:
     build:
       context: .
     depends_on:
-      zookeeper:
-        condition: service_started
-      kafka:
-        condition: service_healthy
-      clickhouse:
-        condition: service_started
+      - kafka
+      - clickhouse
     environment:
       KAFKA_BROKERS: kafka:29092
       KAFKA_TOPIC: streamory-events
-      CLICKHOUSE_HOST: http://clickhouse:8123
-      # NODE_OPTIONS: --dns-result-order=ipv4first # Uncomment if needed
+      CLICKHOUSE_HOST: http://clickhouse:8123 # Use Docker service name
+      # NODE_OPTIONS: --dns-result-order=ipv4first # Force IPv4 resolution
+    # REMOVED: extra_hosts - this was causing the conflict
     restart: unless-stopped
-    networks:
-      - streamory-net
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -86,21 +70,19 @@ services:
       - KAFKA_CLUSTERS_0_NAME=streamory-cluster
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
-    networks:
-      - streamory-net
 
   kafka-exporter:
     image: danielqsj/kafka-exporter:latest
     container_name: kafka-exporter
     restart: unless-stopped
     ports:
-      - "9308:9308"
+      - "9308:9308" # Prometheus will scrape this
     command:
       - "--kafka.server=kafka:29092"
     depends_on:
       - kafka
-    networks:
-      - streamory-net
+    # extra_hosts:
+    #   - "kafka:127.0.0.1"
 
   prometheus:
     image: prom/prometheus:latest
@@ -110,8 +92,6 @@ services:
       - "9090:9090"
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-    networks:
-      - streamory-net
 
   grafana:
     image: grafana/grafana:latest
@@ -124,13 +104,7 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
-    networks:
-      - streamory-net
 
 volumes:
   clickhouse_data:
   grafana_data:
-
-networks:
-  streamory-net:
-    driver: bridge

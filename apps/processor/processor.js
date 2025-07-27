@@ -1,14 +1,16 @@
 import { Kafka } from "kafkajs";
 import { createClient } from "@clickhouse/client";
 import "dotenv/config";
+import { timeStamp } from "console";
+import { performance } from 'perf_hooks';
 
-async function testClickHouseConnection() {
+const testClickHouseConnection = async () => {
   // Debug environment variables
   console.log('🔍 Environment variables:');
   console.log('CLICKHOUSE_HOST:', process.env.CLICKHOUSE_HOST);
   console.log('NODE_ENV:', process.env.NODE_ENV);
-  
-  const url = process.env.CLICKHOUSE_HOST || "http://clickhouse:8123";  
+
+  const url = process.env.CLICKHOUSE_HOST || "http://clickhouse:8123";
   try {
     console.log(`Testing ClickHouse connection: ${url}`);
     const client = createClient({ url });
@@ -25,18 +27,18 @@ async function testClickHouseConnection() {
     });
     throw error;
   }
-}
+};
 
-async function runConsumer() {
+const runConsumer = async () => {
   console.log("Starting Streamory processor...");
-  
+
   let consumer;
   let clickhouse;
 
   try {
     // Test ClickHouse connection
     clickhouse = await testClickHouseConnection();
-    
+
     // Setup Kafka
     const kafka = new Kafka({
       clientId: "streamory-processor",
@@ -49,9 +51,9 @@ async function runConsumer() {
     await consumer.connect();
     console.log("✅ Kafka consumer connected");
 
-    await consumer.subscribe({ 
-      topic: process.env.KAFKA_TOPIC || "streamory-events", 
-      fromBeginning: true 
+    await consumer.subscribe({
+      topic: process.env.KAFKA_TOPIC || "streamory-events",
+      fromBeginning: true
     });
     console.log(`✅ Subscribed to topic: ${process.env.KAFKA_TOPIC || "streamory-events"}`);
 
@@ -81,7 +83,7 @@ async function runConsumer() {
         } catch (err) {
           console.error("❌ Error processing message:", err);
           console.error("❌ Error stack:", err.stack);
-          // Log the raw message for debugging
+          // Log the raw> message for debugging
           console.error("❌ Raw message:", message.value?.toString());
           // Don't throw - let consumer continue with other messages
         }
@@ -90,27 +92,29 @@ async function runConsumer() {
 
     // Setup graceful shutdown handlers
     setupGracefulShutdown(consumer, clickhouse);
-    
+
   } catch (error) {
     console.error("❌ Fatal error in consumer setup:", error);
     await cleanupResources(consumer, clickhouse);
     process.exit(1);
   }
-}
+};
 
-function transformEvent(event) {
+const transformEvent = (event) => {
   // Clean timestamp
-  const cleanTimestamp = event.created_at
-      ? event.created_at.replace(/\.\d{3}Z$/, '').replace('T', ' ')
-      : new Date().toISOString().replace(/\.\d{3}Z$/, '').replace('T', ' ');
+  const cleanTimestamp = event.timestamp
+    ? event.timestamp.replace('Z', '').replace('T', ' ')
+    : getTimestampWithMicros()
+  // : new Date().toISOString().replace(/\.\d{3}Z$/, '').replace('T', ' ');
   return {
     event: event.event,
+    action: event.action,
     properties: JSON.stringify(event.properties || {}),
-    created_at: cleanTimestamp,
+    timestamp: cleanTimestamp,
     user_id: event.user_id || null,
     session_id: event.session_id || null,
   };
-}
+};
 
 async function insertIntoClickHouse(client, event) {
   try {
@@ -133,7 +137,7 @@ async function cleanupResources(consumer, clickhouse) {
       await consumer.disconnect();
       console.log('✅ Kafka consumer disconnected');
     }
-    
+
     if (clickhouse) {
       console.log('🔄 Closing ClickHouse connection...');
       await clickhouse.close();
@@ -170,3 +174,24 @@ runConsumer().catch((error) => {
   console.error("❌ Unhandled error:", error);
   process.exit(1);
 });
+
+function getTimestampWithMicros() {
+  const now = new Date();
+
+  // Format date to "YYYY-MM-DD HH:mm:ss"
+  const datePart = now.toISOString().slice(0, 19).replace('T', ' ');
+
+  // Get milliseconds fraction, 3 digits
+  const ms = now.getMilliseconds();
+
+  // Get high-res sub-millisecond time (in microseconds)
+  const highRes = Math.floor((performance.now() % 1) * 1000); // 0-999 microseconds
+
+  // Combine ms + highRes (ms * 1000 + microseconds) to get 6 digits
+  const micros = (ms * 1000) + highRes;
+
+  // Pad with leading zeros to ensure 6 digits
+  const microStr = micros.toString().padStart(6, '0');
+
+  return `${datePart}.${microStr}`;
+}

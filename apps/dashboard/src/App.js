@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
-import { Activity, Users, Zap, TrendingUp, Eye, MousePointer, Calendar, Filter, Download, RefreshCw } from 'lucide-react';
+import { Activity, Users, Zap, TrendingUp, Eye, MousePointer, Calendar, Filter, Download, RefreshCw, Moon, Sun } from 'lucide-react';
+
+// Theme Context
+const ThemeContext = createContext();
+
+const ThemeProvider = ({ children }) => {
+  const [isDark, setIsDark] = useState(false);
+
+  const toggleTheme = () => setIsDark(!isDark);
+
+  return (
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+const useTheme = () => useContext(ThemeContext);
 
 const Dashboard = () => {
+  const { isDark, toggleTheme } = useTheme();
   const [timeRange, setTimeRange] = useState('24h');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -60,38 +78,38 @@ const Dashboard = () => {
   };
 
   const MetricCard = ({ title, value, icon: Icon, change, suffix = '' }) => (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <div className={`${isDark ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-100 hover:shadow-md'} rounded-xl p-6 shadow-sm border transition-all duration-200`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value.toLocaleString()}{suffix}</p>
+          <p className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-1`}>{title}</p>
+          <p className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{value.toLocaleString()}{suffix}</p>
           {change && (
-            <p className={`text-xs font-medium flex items-center mt-2 ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <p className={`text-xs font-medium flex items-center mt-2 ${change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               <TrendingUp className={`w-3 h-3 mr-1 ${change < 0 ? 'rotate-180' : ''}`} />
               {Math.abs(change)}% vs yesterday
             </p>
           )}
         </div>
-        <div className="bg-blue-50 p-3 rounded-lg">
-          <Icon className="w-6 h-6 text-blue-600" />
+        <div className={`${isDark ? 'bg-blue-900/50' : 'bg-blue-50'} p-3 rounded-lg`}>
+          <Icon className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
         </div>
       </div>
     </div>
   );
 
   const EventRow = ({ event, index }) => (
-    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+    <div className={`flex items-center justify-between py-3 border-b ${isDark ? 'border-gray-700' : 'border-gray-100'} last:border-0`}>
       <div className="flex items-center space-x-3">
         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-sm font-semibold">
           {index + 1}
         </div>
         <div>
-          <p className="font-medium text-gray-900">{event.name}</p>
-          <p className="text-sm text-gray-500">{event.count.toLocaleString()} events</p>
+          <p className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{event.name}</p>
+          <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{event.count.toLocaleString()} events</p>
         </div>
       </div>
       <div className="text-right">
-        <p className={`text-sm font-medium ${event.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+        <p className={`text-sm font-medium ${event.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
           {event.change >= 0 ? '+' : ''}{event.change}%
         </p>
       </div>
@@ -99,9 +117,9 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen transition-colors duration-200 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className={`${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b transition-colors duration-200`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
@@ -109,14 +127,24 @@ const Dashboard = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <Activity className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">Streamory Analytics</h1>
+                <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Streamory Analytics</h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-colors duration-200 ${isDark ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ${isDark
+                    ? 'bg-gray-700 border-gray-600 text-white'
+                    : 'bg-white border-gray-300 text-gray-900'
+                  }`}
               >
                 <option value="1h">Last Hour</option>
                 <option value="24h">Last 24 Hours</option>
@@ -126,7 +154,7 @@ const Dashboard = () => {
               <button
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2 transition-colors duration-200"
               >
                 <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                 <span>Refresh</span>
@@ -169,17 +197,18 @@ const Dashboard = () => {
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Event Trends */}
-          <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className={`lg:col-span-2 rounded-xl p-6 shadow-sm border transition-colors duration-200 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'
+            }`}>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Event Trends</h3>
+              <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Event Trends</h3>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-gray-600">Events</span>
+                  <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>Events</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <span className="text-gray-600">Users</span>
+                  <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>Users</span>
                 </div>
               </div>
             </div>
@@ -195,15 +224,16 @@ const Dashboard = () => {
                     <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
-                <YAxis stroke="#6b7280" fontSize={12} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#f0f0f0'} />
+                <XAxis dataKey="time" stroke={isDark ? '#9CA3AF' : '#6b7280'} fontSize={12} />
+                <YAxis stroke={isDark ? '#9CA3AF' : '#6b7280'} fontSize={12} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#fff',
-                    border: '1px solid #e5e7eb',
+                    backgroundColor: isDark ? '#1F2937' : '#fff',
+                    border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
                     borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    color: isDark ? '#fff' : '#000'
                   }}
                 />
                 <Area
@@ -227,8 +257,9 @@ const Dashboard = () => {
           </div>
 
           {/* User Segments */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">User Segments</h3>
+          <div className={`rounded-xl p-6 shadow-sm border transition-colors duration-200 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'
+            }`}>
+            <h3 className={`text-lg font-semibold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>User Segments</h3>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
@@ -244,7 +275,14 @@ const Dashboard = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: isDark ? '#1F2937' : '#fff',
+                    border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
+                    borderRadius: '8px',
+                    color: isDark ? '#fff' : '#000'
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
             <div className="mt-4 space-y-2">
@@ -252,9 +290,9 @@ const Dashboard = () => {
                 <div key={segment.name} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }}></div>
-                    <span className="text-sm text-gray-600">{segment.name}</span>
+                    <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>{segment.name}</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-900">{segment.value}%</span>
+                  <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{segment.value}%</span>
                 </div>
               ))}
             </div>
@@ -264,8 +302,9 @@ const Dashboard = () => {
         {/* Bottom Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Events */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Top Events</h3>
+          <div className={`rounded-xl p-6 shadow-sm border transition-colors duration-200 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'
+            }`}>
+            <h3 className={`text-lg font-semibold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>Top Events</h3>
             <div className="space-y-1">
               {topEvents.map((event, index) => (
                 <EventRow key={event.name} event={event} index={index} />
@@ -274,23 +313,24 @@ const Dashboard = () => {
           </div>
 
           {/* Device Breakdown */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Device Breakdown</h3>
+          <div className={`rounded-xl p-6 shadow-sm border transition-colors duration-200 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'
+            }`}>
+            <h3 className={`text-lg font-semibold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>Device Breakdown</h3>
             <div className="space-y-4">
               {deviceBreakdown.map((device) => (
                 <div key={device.device} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">{device.device}</span>
-                    <span className="text-sm text-gray-500">{device.sessions.toLocaleString()} sessions</span>
+                    <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{device.device}</span>
+                    <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{device.sessions.toLocaleString()} sessions</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className={`w-full rounded-full h-2 ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`}>
                     <div
                       className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${device.percentage}%` }}
                     ></div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-gray-500">{device.percentage}%</span>
+                    <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{device.percentage}%</span>
                   </div>
                 </div>
               ))}
@@ -302,4 +342,12 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const App = () => {
+  return (
+    <ThemeProvider>
+      <Dashboard />
+    </ThemeProvider>
+  );
+};
+
+export default App;
